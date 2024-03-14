@@ -23,7 +23,6 @@ type UpdateMovie struct {
 type SortParam string
 
 const (
-	None        SortParam = ""
 	Title       SortParam = "title"
 	Rating      SortParam = "rating"
 	ReleaseDate SortParam = "release_date"
