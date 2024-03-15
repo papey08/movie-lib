@@ -86,7 +86,7 @@ func (r *repoImpl) CreateMovie(ctx context.Context, movie model.Movie) (model.Mo
 	}
 
 	for _, id := range movie.ActorsId {
-		_, _ = r.Query(ctx, addActorToMovieQuery, movie.Id, id)
+		_, _ = r.Exec(ctx, addActorToMovieQuery, movie.Id, id)
 	}
 
 	return r.GetMovie(ctx, movie.Id)
@@ -114,7 +114,7 @@ func (r *repoImpl) UpdateMovie(ctx context.Context, id uint64, upd model.UpdateM
 	_, _ = r.Exec(ctx, deleteMovieFromActorsQuery, id)
 
 	for _, actorId := range upd.Actors {
-		_, _ = r.Query(ctx, addActorToMovieQuery, id, actorId)
+		_, _ = r.Exec(ctx, addActorToMovieQuery, id, actorId)
 	}
 
 	return r.GetMovie(ctx, id)
@@ -185,8 +185,10 @@ func (r *repoImpl) GetMovies(ctx context.Context, sortBy model.SortParam) ([]mod
 			&movie.ReleaseDate,
 			&movie.Rating,
 		)
-		movie.Actors, _ = r.getMovieActors(ctx, movie.Id)
 		movies = append(movies, movie)
+	}
+	for i := range movies {
+		movies[i].Actors, _ = r.getMovieActors(ctx, movies[i].Id)
 	}
 	return movies, nil
 }
@@ -208,20 +210,22 @@ func (r *repoImpl) SearchMovies(ctx context.Context, pattern string) ([]model.Mo
 			&movie.ReleaseDate,
 			&movie.Rating,
 		)
-		movie.Actors, _ = r.getMovieActors(ctx, movie.Id)
 		movies = append(movies, movie)
+	}
+	for i := range movies {
+		movies[i].Actors, _ = r.getMovieActors(ctx, movies[i].Id)
 	}
 	return movies, nil
 }
 
-func (r *repoImpl) getMovieActors(ctx context.Context, id uint64) ([]*model.Actor, error) {
+func (r *repoImpl) getMovieActors(ctx context.Context, id uint64) ([]model.Actor, error) {
 	rows, err := r.Query(ctx, getMovieActorsQuery, id)
 	if err != nil {
-		return []*model.Actor{}, errors.Join(model.ErrDatabaseError, err)
+		return []model.Actor{}, errors.Join(model.ErrDatabaseError, err)
 	}
 	defer rows.Close()
 
-	actors := make([]*model.Actor, 0)
+	actors := make([]model.Actor, 0)
 	for rows.Next() {
 		var actor model.Actor
 		_ = rows.Scan(
@@ -230,7 +234,7 @@ func (r *repoImpl) getMovieActors(ctx context.Context, id uint64) ([]*model.Acto
 			&actor.SecondName,
 			&actor.Gender,
 		)
-		actors = append(actors, &actor)
+		actors = append(actors, actor)
 	}
 	return actors, nil
 }

@@ -5,5 +5,5 @@ import (
 )
 
 type repoImpl struct {
-	pgx.Conn
+	*pgx.Conn
 }

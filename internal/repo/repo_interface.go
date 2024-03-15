@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"github.com/jackc/pgx/v5"
 	"movie-lib/internal/model"
 )
 
@@ -20,4 +21,10 @@ type Repo interface {
 	GetActors(ctx context.Context) ([]model.Actor, error)
 
 	GetUserRole(ctx context.Context, id uint64) (model.Role, error)
+}
+
+func New(conn *pgx.Conn) Repo {
+	return &repoImpl{
+		Conn: conn,
+	}
 }

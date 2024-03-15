@@ -13,7 +13,7 @@ type Actor struct {
 	FirstName  string
 	SecondName string
 	Gender
-	Movies []*Movie
+	Movies []Movie
 }
 
 type UpdateActor struct {

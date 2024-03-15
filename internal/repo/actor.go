@@ -118,20 +118,22 @@ func (r *repoImpl) GetActors(ctx context.Context) ([]model.Actor, error) {
 			&actor.SecondName,
 			&actor.Gender,
 		)
-		actor.Movies, _ = r.getActorMovies(ctx, actor.Id)
 		actors = append(actors, actor)
+	}
+	for i := range actors {
+		actors[i].Movies, _ = r.getActorMovies(ctx, actors[i].Id)
 	}
 	return actors, nil
 }
 
-func (r *repoImpl) getActorMovies(ctx context.Context, id uint64) ([]*model.Movie, error) {
+func (r *repoImpl) getActorMovies(ctx context.Context, id uint64) ([]model.Movie, error) {
 	rows, err := r.Query(ctx, getActorMoviesQuery, id)
 	if err != nil {
-		return []*model.Movie{}, errors.Join(model.ErrDatabaseError, err)
+		return []model.Movie{}, errors.Join(model.ErrDatabaseError, err)
 	}
 	defer rows.Close()
 
-	movies := make([]*model.Movie, 0)
+	movies := make([]model.Movie, 0)
 	for rows.Next() {
 		var movie model.Movie
 		_ = rows.Scan(
@@ -141,7 +143,7 @@ func (r *repoImpl) getActorMovies(ctx context.Context, id uint64) ([]*model.Movi
 			&movie.ReleaseDate,
 			&movie.Rating,
 		)
-		movies = append(movies, &movie)
+		movies = append(movies, movie)
 	}
 	return movies, nil
 }

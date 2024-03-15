@@ -3,6 +3,8 @@ package app
 import (
 	"context"
 	"movie-lib/internal/model"
+	"movie-lib/internal/repo"
+	"movie-lib/pkg/logger"
 )
 
 type App interface {
@@ -18,4 +20,11 @@ type App interface {
 	DeleteActor(ctx context.Context, userId uint64, id uint64) error
 	GetActor(ctx context.Context, userId uint64, id uint64) (model.Actor, error)
 	GetActors(ctx context.Context, userId uint64) ([]model.Actor, error)
+}
+
+func New(r repo.Repo, logs logger.Logger) App {
+	return &appImpl{
+		r:    r,
+		logs: logs,
+	}
 }
