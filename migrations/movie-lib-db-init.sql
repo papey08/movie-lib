@@ -29,3 +29,5 @@ VALUES
     ('admin'),
     ('regular')
 ;
+
+SET TIME ZONE 'UTC';
