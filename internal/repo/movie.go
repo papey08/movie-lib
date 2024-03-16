@@ -194,7 +194,7 @@ func (r *repoImpl) GetMovies(ctx context.Context, sortBy model.SortParam) ([]mod
 }
 
 func (r *repoImpl) SearchMovies(ctx context.Context, pattern string) ([]model.Movie, error) {
-	rows, err := r.Query(ctx, getMoviesByPatternQuery, pattern+"%")
+	rows, err := r.Query(ctx, getMoviesByPatternQuery, "%"+pattern+"%")
 	if err != nil {
 		return []model.Movie{}, errors.Join(model.ErrDatabaseError, err)
 	}
