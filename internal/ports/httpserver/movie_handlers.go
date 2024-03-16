@@ -13,6 +13,20 @@ import (
 	"time"
 )
 
+// @Summary		Добавление фильма
+// @Description	Добавляет новый фильм
+// @Tags			movies
+// @Security		ApiKeyAuth
+// @Accept			json
+// @Produce		json
+// @Param			input	body		createMovieData	true	"Информация о новом фильме"
+// @Success		200		{object}	movieResponse	"Информация о фильме"
+// @Failure		400		{object}	movieResponse	"Неверный формат входных данных"
+// @Failure		404		{object}	movieResponse	"Актёра из списка не существует"
+// @Failure		500		{object}	movieResponse	"Проблемы на стороне сервера"
+// @Failure		401		{object}	movieResponse	"Ошибка авторизации"
+// @Failure		403		{object}	movieResponse	"Ошибка авторизации"
+// @Router			/movies [post]
 func createMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -59,6 +73,21 @@ func createMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	}
 }
 
+// @Summary		Обновление фильма
+// @Description	Обновляет поля фильма по id
+// @Tags			movies
+// @Security		ApiKeyAuth
+// @Accept			json
+// @Produce		json
+// @Param			movie_id	query		string			true	"id фильма"
+// @Param			input		body		updateMovieData	true	"Новые поля"
+// @Success		200			{object}	movieResponse	"Информация о фильме"
+// @Failure		400			{object}	movieResponse	"Неверный формат входных данных"
+// @Failure		404			{object}	movieResponse	"Фильма либо актёра из списка не существует"
+// @Failure		500			{object}	movieResponse	"Проблемы на стороне сервера"
+// @Failure		401			{object}	movieResponse	"Ошибка авторизации"
+// @Failure		403			{object}	movieResponse	"Ошибка авторизации"
+// @Router			/movies [put]
 func updateMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -112,6 +141,20 @@ func updateMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	}
 }
 
+// @Summary		Удаление фильма
+// @Description	Удаление фильма по id
+// @Tags			movies
+// @Security		ApiKeyAuth
+// @Accept			json
+// @Produce		json
+// @Param			movie_id	query		string			true	"id фильма"
+// @Success		200			{object}	movieResponse	"Пустая структура"
+// @Failure		400			{object}	movieResponse	"Неверный формат входных данных"
+// @Failure		404			{object}	movieResponse	"Фильма не существует"
+// @Failure		500			{object}	movieResponse	"Проблемы на стороне сервера"
+// @Failure		401			{object}	movieResponse	"Ошибка авторизации"
+// @Failure		403			{object}	movieResponse	"Ошибка авторизации"
+// @Router			/movies [delete]
 func deleteMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -145,7 +188,21 @@ func deleteMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	}
 }
 
-func getMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
+// @Summary		Получение списка фильмов
+// @Description	Возвращает список фильмов
+// @Tags			movies
+// @Security		ApiKeyAuth
+// @Accept			json
+// @Produce		json
+// @Param			pattern	query		string				false	"Поиск по названию фильма/фамилии/имени актёра"
+// @Param			sort_by	query		string				false	"Параметр для сортировки. Поддерживаемые параметры: title, rating, release_date"
+// @Success		200		{object}	movieListResponse	"Информация о фильмах"
+// @Failure		400		{object}	movieListResponse	"Неверный формат входных данных"
+// @Failure		500		{object}	movieListResponse	"Проблемы на стороне сервера"
+// @Failure		401		{object}	movieListResponse	"Ошибка авторизации"
+// @Failure		403		{object}	movieListResponse	"Ошибка авторизации"
+// @Router			/movies/list [get]
+func getMovieListHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
 		if err != nil {
@@ -153,31 +210,7 @@ func getMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 			return
 		}
 
-		if r.URL.Query().Has("movie_id") {
-			var movieId uint64
-			movieId, err = strconv.ParseUint(r.URL.Query().Get("movie_id"), 10, 64)
-			if err != nil {
-				http.Error(w, errorResponse(model.ErrInvalidInput), http.StatusBadRequest)
-				return
-			}
-
-			var movie model.Movie
-			movie, err = a.GetMovie(ctx, userId, movieId)
-
-			switch {
-			case err == nil:
-				w.WriteHeader(http.StatusOK)
-				_, _ = fmt.Fprintf(w, movieResponseOk(movie))
-			case errors.Is(err, model.ErrMovieNotExists):
-				http.Error(w, errorResponse(model.ErrMovieNotExists), http.StatusNotFound)
-			case errors.Is(err, model.ErrUserNotExists):
-				http.Error(w, errorResponse(model.ErrUserNotExists), http.StatusForbidden)
-			case errors.Is(err, model.ErrDatabaseError):
-				http.Error(w, errorResponse(model.ErrDatabaseError), http.StatusInternalServerError)
-			default:
-				http.Error(w, errorResponse(model.ErrServiceError), http.StatusInternalServerError)
-			}
-		} else if r.URL.Query().Has("pattern") {
+		if r.URL.Query().Has("pattern") {
 			pattern := r.URL.Query().Get("pattern")
 
 			var movies []model.Movie
@@ -211,6 +244,54 @@ func getMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 			default:
 				http.Error(w, errorResponse(model.ErrServiceError), http.StatusInternalServerError)
 			}
+		}
+	}
+}
+
+// @Summary		Получение фильма по id
+// @Description	Возвращает фильм с указанным id
+// @Tags			movies
+// @Security		ApiKeyAuth
+// @Accept			json
+// @Produce		json
+// @Param			movie_id	query		string			true	"id фильма"
+// @Success		200			{object}	movieResponse	"Пустая структура"
+// @Failure		404			{object}	movieResponse	"Фильма не существует"
+// @Failure		400			{object}	movieResponse	"Неверный формат входных данных"
+// @Failure		500			{object}	movieResponse	"Проблемы на стороне сервера"
+// @Failure		401			{object}	movieResponse	"Ошибка авторизации"
+// @Failure		403			{object}	movieResponse	"Ошибка авторизации"
+// @Router			/movies [get]
+func getMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
+		if err != nil {
+			http.Error(w, errorResponse(model.ErrUnauthorized), http.StatusUnauthorized)
+			return
+		}
+
+		var movieId uint64
+		movieId, err = strconv.ParseUint(r.URL.Query().Get("movie_id"), 10, 64)
+		if err != nil {
+			http.Error(w, errorResponse(model.ErrInvalidInput), http.StatusBadRequest)
+			return
+		}
+
+		var movie model.Movie
+		movie, err = a.GetMovie(ctx, userId, movieId)
+
+		switch {
+		case err == nil:
+			w.WriteHeader(http.StatusOK)
+			_, _ = fmt.Fprintf(w, movieResponseOk(movie))
+		case errors.Is(err, model.ErrMovieNotExists):
+			http.Error(w, errorResponse(model.ErrMovieNotExists), http.StatusNotFound)
+		case errors.Is(err, model.ErrUserNotExists):
+			http.Error(w, errorResponse(model.ErrUserNotExists), http.StatusForbidden)
+		case errors.Is(err, model.ErrDatabaseError):
+			http.Error(w, errorResponse(model.ErrDatabaseError), http.StatusInternalServerError)
+		default:
+			http.Error(w, errorResponse(model.ErrServiceError), http.StatusInternalServerError)
 		}
 	}
 }

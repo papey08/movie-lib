@@ -2,6 +2,9 @@ package httpserver
 
 import (
 	"context"
+	"fmt"
+	"github.com/swaggo/http-swagger"
+	_ "movie-lib/docs"
 	"movie-lib/internal/app"
 	"movie-lib/pkg/logger"
 	"net/http"
@@ -40,8 +43,12 @@ func handleActors(ctx context.Context, a app.App) http.HandlerFunc {
 func New(ctx context.Context, addr string, a app.App, logs logger.Logger) *http.Server {
 	mux := http.NewServeMux()
 
+	mux.Handle("/swagger/", httpSwagger.Handler(httpSwagger.URL(fmt.Sprintf("http://%s/swagger/doc.json", addr))))
+
 	mux.Handle("/api/v1/actors/", logMiddleware(handleActors(ctx, a), logs))
+	mux.Handle("/api/v1/actors/list/", logMiddleware(getActorsListHandler(ctx, a), logs))
 	mux.Handle("/api/v1/movies/", logMiddleware(handleMovies(ctx, a), logs))
+	mux.Handle("/api/v1/movies/list/", logMiddleware(getMovieListHandler(ctx, a), logs))
 
 	return &http.Server{
 		Addr:    addr,

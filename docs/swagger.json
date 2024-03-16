@@ -1,0 +1,851 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Swagger документация к API фильмотеки",
+        "title": "movie-lib",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/actors": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Возвращает актёра с указанным id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actors"
+                ],
+                "summary": "Получение актёра",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id актёра",
+                        "name": "actor_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Информация об актёре",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат входных данных",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Актёра не существует",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Проблемы на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Обновляет поля актёра по id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actors"
+                ],
+                "summary": "Обновление полей актёра",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id актёра",
+                        "name": "actor_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Новые поля",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.updateActorData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Информация об актёре",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат входных данных",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Актёра не существует",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Проблемы на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Добавляет нового актёра",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actors"
+                ],
+                "summary": "Добавление актёра",
+                "parameters": [
+                    {
+                        "description": "Информация о новом актёре",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.createActorData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Информация об актёре",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат входных данных",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Проблемы на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Удаляет актёра по id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actors"
+                ],
+                "summary": "Удаление актёра",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id актёра",
+                        "name": "actor_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пустая структура",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат входных данных",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Актёра не существует",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Проблемы на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/actors/list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Возвращает список актёров",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "actors"
+                ],
+                "summary": "Получение списка актёров",
+                "responses": {
+                    "200": {
+                        "description": "Информация об актёрах",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorListResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorListResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Проблемы на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.actorListResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/movies": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Возвращает фильм с указанным id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Получение фильма по id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id фильма",
+                        "name": "movie_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пустая структура",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат входных данных",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Фильма не существует",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Проблемы на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Обновляет поля фильма по id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Обновление фильма",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id фильма",
+                        "name": "movie_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Новые поля",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.updateMovieData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Информация о фильме",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат входных данных",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Фильма либо актёра из списка не существует",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Проблемы на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Добавляет новый фильм",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Добавление фильма",
+                "parameters": [
+                    {
+                        "description": "Информация о новом фильме",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.createMovieData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Информация о фильме",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат входных данных",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Актёра из списка не существует",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Проблемы на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Удаление фильма по id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Удаление фильма",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id фильма",
+                        "name": "movie_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пустая структура",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат входных данных",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Фильма не существует",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Проблемы на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/movies/list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Возвращает список фильмов",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "movies"
+                ],
+                "summary": "Получение списка фильмов",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Поиск по названию фильма/фамилии/имени актёра",
+                        "name": "pattern",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Параметр для сортировки. Поддерживаемые параметры: title, rating, release_date",
+                        "name": "sort_by",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Информация о фильмах",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат входных данных",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieListResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieListResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Проблемы на стороне сервера",
+                        "schema": {
+                            "$ref": "#/definitions/httpserver.movieListResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "httpserver.actorData": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "type": "string"
+                },
+                "gender": {
+                    "$ref": "#/definitions/model.Gender"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "movies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/httpserver.movieData"
+                    }
+                },
+                "second_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpserver.actorListResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/httpserver.actorData"
+                    }
+                },
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpserver.actorResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/httpserver.actorData"
+                },
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpserver.createActorData": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "type": "string"
+                },
+                "gender": {
+                    "$ref": "#/definitions/model.Gender"
+                },
+                "second_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpserver.createMovieData": {
+            "type": "object",
+            "properties": {
+                "actors": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "release_date": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpserver.movieData": {
+            "type": "object",
+            "properties": {
+                "actors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/httpserver.actorData"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "release_date": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpserver.movieListResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/httpserver.movieData"
+                    }
+                },
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpserver.movieResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/httpserver.movieData"
+                },
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpserver.updateActorData": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "type": "string"
+                },
+                "gender": {
+                    "$ref": "#/definitions/model.Gender"
+                },
+                "second_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "httpserver.updateMovieData": {
+            "type": "object",
+            "properties": {
+                "actors": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "release_date": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Gender": {
+            "type": "string",
+            "enum": [
+                "",
+                "male",
+                "female"
+            ],
+            "x-enum-varnames": [
+                "Unknown",
+                "Male",
+                "Female"
+            ]
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

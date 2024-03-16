@@ -52,6 +52,15 @@ const (
 	localConfigFile  = "config/config-local.yml"
 )
 
+//	@title						movie-lib
+//	@version					1.0
+//	@description				Swagger документация к API фильмотеки
+//	@host						localhost:8080
+//	@BasePath					/api/v1
+//	@SecurityDefinitions.apikey	ApiKeyAuth
+//	@in							header
+//	@name						Authorization
+
 func main() {
 	ctx := context.Background()
 	logs := logger.DefaultLogger(os.Stdout)
