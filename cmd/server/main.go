@@ -84,15 +84,13 @@ func main() {
 	}
 	logs.InfoLog("successfully connected to postgres")
 
-	srvAddr := fmt.Sprintf("%s:%d",
-		viper.GetString("http-server.host"),
-		viper.GetInt("http-server.port"),
-	)
-
 	r := repo.New(conn)
 	a := app.New(r, logs)
 
-	srv := httpserver.New(ctx, srvAddr, a, logs)
+	host := viper.GetString("http-server.host")
+	port := viper.GetInt("http-server.port")
+
+	srv := httpserver.New(ctx, host, port, a, logs)
 
 	go func() {
 		_ = srv.ListenAndServe()

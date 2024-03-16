@@ -40,10 +40,10 @@ func handleActors(ctx context.Context, a app.App) http.HandlerFunc {
 	}
 }
 
-func New(ctx context.Context, addr string, a app.App, logs logger.Logger) *http.Server {
+func New(ctx context.Context, host string, port int, a app.App, logs logger.Logger) *http.Server {
 	mux := http.NewServeMux()
 
-	mux.Handle("/swagger/", httpSwagger.Handler(httpSwagger.URL(fmt.Sprintf("http://%s/swagger/doc.json", addr))))
+	mux.Handle("/swagger/", httpSwagger.Handler(httpSwagger.URL(fmt.Sprintf("http://%s:%d/swagger/doc.json", "localhost", port))))
 
 	mux.Handle("/api/v1/actors/", logMiddleware(handleActors(ctx, a), logs))
 	mux.Handle("/api/v1/actors/list/", logMiddleware(getActorsListHandler(ctx, a), logs))
@@ -51,7 +51,7 @@ func New(ctx context.Context, addr string, a app.App, logs logger.Logger) *http.
 	mux.Handle("/api/v1/movies/list/", logMiddleware(getMovieListHandler(ctx, a), logs))
 
 	return &http.Server{
-		Addr:    addr,
+		Addr:    fmt.Sprintf("%s:%d", host, port),
 		Handler: mux,
 	}
 }

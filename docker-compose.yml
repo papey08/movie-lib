@@ -15,5 +15,15 @@ services:
       - ./migrations/:/docker-entrypoint-initdb.d/
       - movie-lib-data:/var/lib/postgresql/data
 
+  movie-lib:
+    build: ./
+    command: ./movie-lib-app --docker
+    container_name: movie-lib
+    profiles: ["release"]
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-db
+
 volumes:
   movie-lib-data:
