@@ -129,7 +129,7 @@ info:
   title: movie-lib
   version: "1.0"
 paths:
-  /actors:
+  /actors/:
     delete:
       description: Удаляет актёра по id
       parameters:
@@ -297,7 +297,7 @@ paths:
       summary: Обновление полей актёра
       tags:
       - actors
-  /actors/list:
+  /actors/list/:
     get:
       description: Возвращает список актёров
       produces:
@@ -324,7 +324,7 @@ paths:
       summary: Получение списка актёров
       tags:
       - actors
-  /movies:
+  /movies/:
     delete:
       consumes:
       - application/json
@@ -500,7 +500,7 @@ paths:
       summary: Обновление фильма
       tags:
       - movies
-  /movies/list:
+  /movies/list/:
     get:
       consumes:
       - application/json

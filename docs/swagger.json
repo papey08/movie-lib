@@ -9,7 +9,7 @@
     "host": "localhost:8080",
     "basePath": "/api/v1",
     "paths": {
-        "/actors": {
+        "/actors/": {
             "get": {
                 "security": [
                     {
@@ -270,7 +270,7 @@
                 }
             }
         },
-        "/actors/list": {
+        "/actors/list/": {
             "get": {
                 "security": [
                     {
@@ -313,7 +313,7 @@
                 }
             }
         },
-        "/movies": {
+        "/movies/": {
             "get": {
                 "security": [
                     {
@@ -586,7 +586,7 @@
                 }
             }
         },
-        "/movies/list": {
+        "/movies/list/": {
             "get": {
                 "security": [
                     {

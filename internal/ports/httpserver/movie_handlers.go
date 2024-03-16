@@ -26,7 +26,7 @@ import (
 // @Failure		500		{object}	movieResponse	"Проблемы на стороне сервера"
 // @Failure		401		{object}	movieResponse	"Ошибка авторизации"
 // @Failure		403		{object}	movieResponse	"Ошибка авторизации"
-// @Router			/movies [post]
+// @Router			/movies/ [post]
 func createMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -87,7 +87,7 @@ func createMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 // @Failure		500			{object}	movieResponse	"Проблемы на стороне сервера"
 // @Failure		401			{object}	movieResponse	"Ошибка авторизации"
 // @Failure		403			{object}	movieResponse	"Ошибка авторизации"
-// @Router			/movies [put]
+// @Router			/movies/ [put]
 func updateMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -154,7 +154,7 @@ func updateMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 // @Failure		500			{object}	movieResponse	"Проблемы на стороне сервера"
 // @Failure		401			{object}	movieResponse	"Ошибка авторизации"
 // @Failure		403			{object}	movieResponse	"Ошибка авторизации"
-// @Router			/movies [delete]
+// @Router			/movies/ [delete]
 func deleteMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -201,7 +201,7 @@ func deleteMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 // @Failure		500		{object}	movieListResponse	"Проблемы на стороне сервера"
 // @Failure		401		{object}	movieListResponse	"Ошибка авторизации"
 // @Failure		403		{object}	movieListResponse	"Ошибка авторизации"
-// @Router			/movies/list [get]
+// @Router			/movies/list/ [get]
 func getMovieListHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -261,7 +261,7 @@ func getMovieListHandler(ctx context.Context, a app.App) http.HandlerFunc {
 // @Failure		500			{object}	movieResponse	"Проблемы на стороне сервера"
 // @Failure		401			{object}	movieResponse	"Ошибка авторизации"
 // @Failure		403			{object}	movieResponse	"Ошибка авторизации"
-// @Router			/movies [get]
+// @Router			/movies/ [get]
 func getMovieHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)

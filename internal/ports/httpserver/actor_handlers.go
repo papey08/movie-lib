@@ -24,7 +24,7 @@ import (
 // @Failure		500		{object}	actorResponse	"Проблемы на стороне сервера"
 // @Failure		401		{object}	actorResponse	"Ошибка авторизации"
 // @Failure		403		{object}	actorResponse	"Ошибка авторизации"
-// @Router			/actors [post]
+// @Router			/actors/ [post]
 func createActorHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -79,7 +79,7 @@ func createActorHandler(ctx context.Context, a app.App) http.HandlerFunc {
 // @Failure		500			{object}	actorResponse	"Проблемы на стороне сервера"
 // @Failure		401			{object}	actorResponse	"Ошибка авторизации"
 // @Failure		403			{object}	actorResponse	"Ошибка авторизации"
-// @Router			/actors [put]
+// @Router			/actors/ [put]
 func updateActorHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -139,7 +139,7 @@ func updateActorHandler(ctx context.Context, a app.App) http.HandlerFunc {
 // @Failure		500			{object}	actorResponse	"Проблемы на стороне сервера"
 // @Failure		401			{object}	actorResponse	"Ошибка авторизации"
 // @Failure		403			{object}	actorResponse	"Ошибка авторизации"
-// @Router			/actors [delete]
+// @Router			/actors/ [delete]
 func deleteActorHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -185,7 +185,7 @@ func deleteActorHandler(ctx context.Context, a app.App) http.HandlerFunc {
 // @Failure		400			{object}	actorResponse	"Неверный формат входных данных"
 // @Failure		401			{object}	actorResponse	"Ошибка авторизации"
 // @Failure		403			{object}	actorResponse	"Ошибка авторизации"
-// @Router			/actors [get]
+// @Router			/actors/ [get]
 func getActorHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
@@ -228,7 +228,7 @@ func getActorHandler(ctx context.Context, a app.App) http.HandlerFunc {
 // @Failure		500	{object}	actorListResponse	"Проблемы на стороне сервера"
 // @Failure		401	{object}	actorListResponse	"Ошибка авторизации"
 // @Failure		403	{object}	actorListResponse	"Ошибка авторизации"
-// @Router			/actors/list [get]
+// @Router			/actors/list/ [get]
 func getActorsListHandler(ctx context.Context, a app.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		userId, err := strconv.ParseUint(r.Header.Get("Authorization"), 10, 64)
